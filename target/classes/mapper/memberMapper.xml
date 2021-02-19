@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.petcare.www.dao.MemberMapper">
+
+	<!-- 일반 회원가입 -->
+	<insert id="joinMember" parameterType="member">
+		insert into
+			PetMember_test(
+				member_no,
+				member_id,
+				member_pw,
+				member_name,
+				member_email
+				<if test="originalfile != null">
+	             ,originalfile
+	             ,savedfile
+         		 </if>
+			)values(
+				PetTestMember_test_seq.nextval,
+				#{member_id},
+				#{member_pw},
+				#{member_name},
+				#{member_email}
+				<if test="originalfile != null">
+           		 ,#{originalfile}
+          		 ,#{savedfile}
+        		 </if>
+			)
+	</insert>
+	
+	<!-- 카카오 회원가입여부 체크-->
+	<select id="joinKakaoCheck" parameterType="string" resultType="member">
+		select
+			member_id,
+			member_no
+		from
+			PetKaMember_test
+		where
+			member_id = #{member_id}
+	</select>
+	
+	<!-- 카카오 회원가입 -->
+	<insert id="kakaoJoinMember" parameterType="member">
+		insert into
+			PetKaMember_test(
+				member_no,
+				member_id,
+				member_pw,
+				member_name,
+				member_email
+				<if test="originalfile != null">
+	             ,originalfile
+	             ,savedfile
+         		 </if>
+			)values(
+				PetKaTestMember_test_seq.nextval,
+				#{member_id},
+				#{member_pw},
+				#{member_name},
+				#{member_email}
+				<if test="originalfile != null">
+           		 ,#{originalfile}
+          		 ,#{savedfile}
+        		 </if>
+			)
+	</insert>
+	
+	<!-- 일반 로그인을 위한 검색 -->
+	<select id="getMember" parameterType="string" resultType="member">
+		select
+			*
+		from
+			PetMember_test
+		where
+			member_id = #{member_id}
+	</select>
+	
+	<!-- 일반회원 마이페이지 -->
+	<select id="oneMember" parameterType="string" resultType="member">
+		select
+			member_no,
+			member_id,
+			member_pw,
+			member_name,
+			member_email,
+			originalfile,
+      		savedfile
+      	from
+      		PetMember_test
+      	where
+      		member_id = #{member_id}	
+	</select>
+	
+	<!-- 카카오회원 마이페이지 -->
+	
+</mapper>
